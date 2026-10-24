@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfonify helps you build a portfolio that represents you. Choose a design and showcase your work.">
+    <title>Portfonify — Your Portfolio, Your Style</title>
+
+    <style>
+        :root {
+            --background: #080a08;
+            --surface: #111411;
+            --green: #70e58b;
+            --white: #f5f7f5;
+            --muted: #929992;
+            --border: #242924;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--white);
+            font-family: Inter, "Segoe UI", Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1100px, 90%);
+            margin: 0 auto;
+        }
+
+        nav {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-content {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            font-size: 1.45rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--green);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-weight: 650;
+            font-size: 0.95rem;
+            transition: 0.2s ease;
+            cursor: pointer;
+        }
+
+        .button-primary {
+            background: var(--green);
+            color: #08100a;
+            border-color: var(--green);
+        }
+
+        .button-primary:hover {
+            background: #8cf3a2;
+            transform: translateY(-2px);
+        }
+
+        .button-secondary:hover {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .start-button {
+            min-height: 54px;
+            min-width: 190px;
+            padding: 15px 26px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 10px;
+        }
+
+        .hero-buttons .start-button {
+            min-width: 210px;
+        }
+
+        .button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Hero */
+
+        .hero {
+            text-align: center;
+            padding: 110px 0 90px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            color: var(--green);
+            border: 1px solid #294a31;
+            background: #101b12;
+            border-radius: 100px;
+            padding: 6px 13px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 26px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5.8rem);
+            line-height: 1.05;
+            letter-spacing: -4px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 span {
+            color: var(--green);
+        }
+
+        .hero p {
+            color: var(--muted);
+            max-width: 590px;
+            margin: 0 auto 32px;
+            font-size: 1.1rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        /* Templates */
+
+        .templates {
+            padding: 65px 0 100px;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .section-heading h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            letter-spacing: -1.5px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            margin-top: 5px;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .template-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.2s ease;
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+            border-color: #45644b;
+        }
+
+        .preview {
+            height: 205px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .preview-minimal {
+            background: #080a08;
+            color: #f5f7f5;
+        }
+
+        .preview-creative {
+            background: #fff8ed;
+            color: #20201e;
+        }
+
+        .preview-editorial {
+            background: #f8f6f0;
+            color: #282921;
+        }
+
+        .preview-neon {
+            background: #080a18;
+            color: #f3f4ff;
+        }
+
+        .preview-label {
+            font-size: 0.65rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            opacity: 0.75;
+        }
+
+        .preview h3 {
+            font-size: 1.8rem;
+            line-height: 1.1;
+            margin: 12px 0;
+            letter-spacing: -1px;
+        }
+
+        .preview p {
+            font-size: 0.72rem;
+            opacity: 0.75;
+        }
+
+        .preview-minimal h3 span {
+            color: var(--green);
+        }
+
+        .preview-creative h3 span {
+            color: #ff6339;
+        }
+
+        .preview-editorial h3 {
+            font-family: Georgia, serif;
+            font-weight: 400;
+        }
+
+        .preview-neon h3 span {
+            color: #a78bfa;
+        }
+
+        .card-info {
+            padding: 18px;
+        }
+
+        .card-info h3 {
+            font-size: 1.05rem;
+            margin-bottom: 5px;
+        }
+
+        .card-info p {
+            color: var(--muted);
+            font-size: 0.88rem;
+            margin-bottom: 15px;
+        }
+
+        .card-link {
+            display: inline-block;
+            color: var(--green);
+            font-size: 0.9rem;
+            font-weight: 650;
+        }
+
+        .card-link:hover {
+            text-decoration: underline;
+        }
+
+        /* How it works */
+
+        .how-it-works {
+            padding: 75px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 35px;
+            margin-top: 35px;
+        }
+
+        .step-number {
+            color: var(--green);
+            font-size: 0.85rem;
+            font-weight: 750;
+        }
+
+        .step h3 {
+            margin: 10px 0 8px;
+            font-size: 1.15rem;
+        }
+
+        .step p {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        /* Bottom call to action */
+
+        .cta {
+            padding: 90px 0;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: clamp(2rem, 5vw, 3.3rem);
+            letter-spacing: -2px;
+            margin-bottom: 14px;
+        }
+
+        .cta p {
+            color: var(--muted);
+            margin-bottom: 25px;
+        }
+
+        /* Footer */
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 25px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        /* License agreement modal */
+
+        .license-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+        }
+
+        .license-modal.open {
+            display: flex;
+        }
+
+        .license-dialog {
+            width: min(620px, 100%);
+            max-height: 82vh;
+            overflow-y: auto;
+            padding: 28px;
+            background: #111411;
+            border: 1px solid #303830;
+            border-radius: 16px;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+        }
+
+        .license-dialog h2 {
+            font-size: 1.7rem;
+            letter-spacing: -1px;
+            margin-bottom: 7px;
+        }
+
+        .license-intro,
+        .license-section p {
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .license-intro {
+            margin-bottom: 22px;
+        }
+
+        .license-section {
+            padding: 14px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .license-section h3 {
+            font-size: 0.98rem;
+            margin-bottom: 4px;
+        }
+
+        .license-accept {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 16px 0;
+            margin-top: 8px;
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .license-accept input {
+            width: 16px;
+            height: 16px;
+            margin-top: 5px;
+            flex-shrink: 0;
+            accent-color: var(--green);
+        }
+
+        .license-actions {
+            display: flex;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 760px) {
+            .hero {
+                padding: 80px 0 65px;
+            }
+
+            .hero h1 {
+                letter-spacing: -2px;
+            }
+
+            .template-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .nav-content {
+                padding: 17px 0;
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                order: 3;
+                width: 100%;
+                justify-content: space-between;
+                gap: 12px;
+            }
+
+            .nav-content > .button {
+                padding: 9px 12px;
+            }
+
+            .template-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .preview {
+                height: 190px;
+            }
+
+            .section-heading {
+                align-items: start;
+                flex-direction: column;
+            }
+
+            .footer-content {
+                align-items: start;
+                flex-direction: column;
+            }
+
+            .license-dialog {
+                padding: 20px;
+            }
+
+            .license-actions > button {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="container nav-content">
+            <a href="/" class="logo">Portfon<span>ify</span></a>
+
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="#templates">Templates</a>
+                <a href="#about">About</a>
+            </div>
+
+            <a href="#license" class="button button-primary" data-open-license>
+                Start creating →
+            </a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero container">
+            <div class="eyebrow">YOUR PORTFOLIO, YOUR WAY</div>
+
+            <h1>
+                Your portfolio.<br>
+                <span>Your style.</span>
+            </h1>
+
+            <p>
+                Build a portfolio that feels like you.
+                Choose a design, showcase your work, and make
+                your own corner of the internet.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#license" class="button button-primary start-button" data-open-license>
+                    Start creating →
+                </a>
+
+                <a href="#templates" class="button button-secondary">
+                    Explore templates
+                </a>
+
+                <a href="#about" class="button button-secondary">
+                    How it works
+                </a>
+            </div>
+        </section>
+
+        <section class="templates container" id="templates">
+            <div class="section-heading">
+                <div>
+                    <h2>Find your style.</h2>
+                    <p>Different designs. One place to showcase your work.</p>
+                </div>
+            </div>
+
+            <div class="template-grid">
+
+                <article class="template-card">
+                    <div class="preview preview-minimal">
+                        <div class="preview-label">PORTFOLIO / 01</div>
+                        <h3>Simple.<br><span>Focused.</span></h3>
+                        <p>DESIGN · DEVELOPMENT · CREATION</p>
+                    </div>
+
+                    <div class="card-info">
+                        <h3>Minimal</h3>
+                        <p>Clean, dark, and distraction-free.</p>
+                        <a href="/preview/minimal" class="card-link">
+                            Preview template →
+                        </a>
+                    </div>
+                </article>
+
+                <article class="template-card">
+                    <div class="preview preview-creative">
+                        <div class="preview-label">CREATIVE PORTFOLIO</div>
+                        <h3>Make some<br><span>noise.</span></h3>
+                        <p>IDEAS · ART · EXPERIMENTS</p>
+                    </div>
+
+                    <div class="card-info">
+                        <h3>Creative Studio</h3>
+                        <p>Bold colors and expressive typography.</p>
+                        <a href="/preview/creativestudio" class="card-link">
+                            Preview template →
+                        </a>
+                    </div>
+                </article>
+
+                <article class="template-card">
+                    <div class="preview preview-editorial">
+                        <div class="preview-label">SELECTED WORKS — 2026</div>
+                        <h3>Less,<br>but better.</h3>
+                        <p>THOUGHTFUL WORK. CLEAR STORIES.</p>
+                    </div>
+
+                    <div class="card-info">
+                        <h3>Editorial</h3>
+                        <p>Elegant typography with a timeless feel.</p>
+                        <a href="/preview/editorial" class="card-link">
+                            Preview template →
+                        </a>
+                    </div>
+                </article>
+
+                <article class="template-card">
+                    <div class="preview preview-neon">
+                        <div class="preview-label">DIGITAL CREATOR</div>
+                        <h3>Future<br><span>unlocked.</span></h3>
+                        <p>CODE · TECHNOLOGY · INNOVATION</p>
+                    </div>
+
+                    <div class="card-info">
+                        <h3>Neon Tech</h3>
+                        <p>A futuristic look with neon accents.</p>
+                        <a href="/preview/neon_tech" class="card-link">
+                            Preview template →
+                        </a>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="how-it-works" id="about">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <h2>Three steps. Your portfolio.</h2>
+                        <p>Getting started should be simple.</p>
+                    </div>
+                </div>
+
+                <div class="steps">
+                    <article class="step">
+                        <div class="step-number">01 / CHOOSE</div>
+                        <h3>Pick your design</h3>
+                        <p>Find the template that matches your personality and work.</p>
+                    </article>
+
+                    <article class="step">
+                        <div class="step-number">02 / PERSONALIZE</div>
+                        <h3>Make it yours</h3>
+                        <p>Add your name, introduction, projects, and experience.</p>
+                    </article>
+
+                    <article class="step">
+                        <div class="step-number">03 / SHARE</div>
+                        <h3>Show the world</h3>
+                        <p>Present your work in a portfolio you can be proud of.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta container">
+            <h2>Your work deserves a home.</h2>
+            <p>Start with a design. Make it yours.</p>
+
+            <a href="#license" class="button button-primary start-button" data-open-license>
+                Start creating →
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <a href="/" class="logo">Portfon<span>ify</span></a>
+            <p>Made with care. Built for creators.</p>
+        </div>
+    </footer>
+
+    <!-- License agreement -->
+
+    <div class="license-modal"
+         id="licenseModal"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="licenseTitle">
+
+        <div class="license-dialog">
+            <h2 id="licenseTitle">Portfonify License Agreement</h2>
+
+            <p class="license-intro">
+                Please review these terms before using Portfonify.
+                Copyright © 2026 Parsa Sh. All rights reserved.
+            </p>
+
+            <section class="license-section">
+                <h3>1. Using Portfonify</h3>
+                <p>
+                    You may use Portfonify to create, download, modify,
+                    and publish your own portfolio websites for personal
+                    or professional use.
+                </p>
+            </section>
+
+            <section class="license-section">
+                <h3>2. Source Code</h3>
+                <p>
+                    You may review the source code for learning and inspection.
+                    You may not copy, redistribute, republish, or reuse
+                    Portfonify's source code without prior written permission
+                    from Parsa Sh.
+                </p>
+            </section>
+
+            <section class="license-section">
+                <h3>3. Commercial Restrictions</h3>
+                <p>
+                    You may not sell or commercially redistribute Portfonify
+                    itself, its source code, or modified versions without
+                    prior written permission from Parsa Sh.
+                </p>
+            </section>
+
+            <section class="license-section">
+                <h3>4. Your Portfolio</h3>
+                <p>
+                    Portfolio websites you create belong to you and are
+                    separate works from Portfonify. You may modify, publish,
+                    and use your portfolio. Third-party assets, fonts,
+                    libraries, and other components remain subject to
+                    their own licenses.
+                </p>
+            </section>
+
+            <section class="license-section">
+                <h3>5. No Warranty</h3>
+                <p>
+                    Portfonify is provided "as is", without warranties
+                    of any kind. To the extent permitted by applicable law,
+                    Parsa Sh is not liable for damages arising from its use.
+                </p>
+            </section>
+
+            <label class="license-accept">
+                <input type="checkbox" id="licenseCheckbox">
+                <span>
+                    I have read and agree to the Portfonify License Agreement.
+                </span>
+            </label>
+
+            <div class="license-actions">
+                <button type="button"
+                        class="button button-secondary"
+                        id="cancelLicense">
+                    Cancel
+                </button>
+
+                <button type="button"
+                        class="button button-primary start-button"
+                        id="acceptLicense"
+                        disabled>
+                    Agree &amp; continue →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const licenseModal = document.getElementById("licenseModal");
+        const licenseCheckbox = document.getElementById("licenseCheckbox");
+        const acceptLicense = document.getElementById("acceptLicense");
+        const cancelLicense = document.getElementById("cancelLicense");
+
+        function openLicense() {
+            licenseModal.classList.add("open");
+            document.body.classList.add("modal-open");
+
+            licenseCheckbox.checked = false;
+            acceptLicense.disabled = true;
+
+            licenseCheckbox.focus();
+        }
+
+        function closeLicense() {
+            licenseModal.classList.remove("open");
+            document.body.classList.remove("modal-open");
+        }
+
+        document.querySelectorAll("[data-open-license]").forEach(button => {
+            button.addEventListener("click", event => {
+                event.preventDefault();
+                openLicense();
+            });
+        });
+
+        licenseCheckbox.addEventListener("change", () => {
+            acceptLicense.disabled = !licenseCheckbox.checked;
+        });
+
+        cancelLicense.addEventListener("click", closeLicense);
+
+        licenseModal.addEventListener("click", event => {
+            if (event.target === licenseModal) {
+                closeLicense();
+            }
+        });
+
+        document.addEventListener("keydown", event => {
+            if (
+                event.key === "Escape" &&
+                licenseModal.classList.contains("open")
+            ) {
+                closeLicense();
+            }
+        });
+
+        acceptLicense.addEventListener("click", () => {
+            if (licenseCheckbox.checked) {
+                window.location.href = "/create";
+            }
+        });
+    </script>
+
+</body>
+</html>

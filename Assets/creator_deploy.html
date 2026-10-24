@@ -1,0 +1,1371 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Dashboard | Portfonify</title>
+
+    <style>
+        :root {
+            --bg: #101116;
+            --panel: #181a22;
+            --text: #f1f2f7;
+            --muted: #a0a4b3;
+            --border: #2c2f3a;
+            --accent: #8b83ff;
+            --soft: #292544;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, system-ui, Arial, sans-serif;
+        }
+
+        button, input, textarea, select { font: inherit; }
+        button { cursor: pointer; }
+
+        .topbar {
+            min-height: 68px;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            background: var(--panel);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 19px;
+            font-weight: 800;
+        }
+
+        .brand-mark {
+            width: 32px;
+            height: 32px;
+            display: grid;
+            place-items: center;
+            background: var(--accent);
+            color: white;
+            border-radius: 9px;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status { color: var(--muted); font-size: 12px; }
+
+        .btn {
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: #22242e;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .btn:hover { background: #30323e; }
+
+        .btn.primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .btn.primary:hover { filter: brightness(.92); }
+
+        .btn:disabled {
+            opacity: .65;
+            cursor: wait;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(320px, 410px) minmax(0, 1fr);
+            min-height: calc(100vh - 68px);
+        }
+
+        .editor {
+            padding: 26px 22px 36px;
+            background: #101116;
+            border-right: 1px solid var(--border);
+        }
+
+        .eyebrow {
+            color: var(--accent);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 8px 0;
+            font-size: 27px;
+            letter-spacing: -1px;
+        }
+
+        .intro {
+            margin: 0 0 24px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .section {
+            margin-bottom: 15px;
+            overflow: hidden;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+        }
+
+        .section-head {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-head h2 {
+            margin: 0;
+            font-size: 13px;
+        }
+
+        .section-body { padding: 15px; }
+
+        .field { margin-bottom: 15px; }
+        .field:last-child { margin-bottom: 0; }
+
+        .editor label {
+            display: block;
+            margin-bottom: 7px;
+            color: #e8e9f1;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .editor input:not([type="color"]):not([type="file"]),
+        .editor textarea,
+        .editor select {
+            width: 100%;
+            padding: 11px;
+            background: #101116;
+            color: var(--text);
+            border: 1px solid #363947;
+            border-radius: 8px;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .editor input::placeholder,
+        .editor textarea::placeholder { color: #858a9b; }
+
+        .editor input:focus,
+        .editor textarea:focus,
+        .editor select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px #8b83ff20;
+        }
+
+        .editor input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            background: #101116;
+            color: var(--text);
+            border: 1px solid #363947;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .editor input[type="color"] {
+            width: 100%;
+            height: 40px;
+            padding: 4px;
+            background: #101116;
+            border: 1px solid #363947;
+            border-radius: 8px;
+        }
+
+        .editor textarea {
+            min-height: 80px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .hint {
+            margin: 8px 0 0;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .template-option {
+            padding: 8px;
+            text-align: left;
+            color: var(--text);
+            background: #20222c;
+            border: 1px solid #363947;
+            border-radius: 9px;
+        }
+
+        .template-option:hover { border-color: #7770c9; }
+
+        .template-option.active {
+            background: #302b4a;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px #8b83ff20;
+        }
+
+        .template-option span {
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .mini-preview {
+            height: 43px;
+            margin-bottom: 8px;
+            padding: 6px;
+            overflow: hidden;
+            background: #303340;
+            border-radius: 5px;
+        }
+
+        .mini-line {
+            width: 65%;
+            height: 4px;
+            margin-bottom: 5px;
+            background: #858a9b;
+            border-radius: 5px;
+        }
+
+        .mini-line.short { width: 35%; }
+
+        .mini-block {
+            width: 100%;
+            height: 13px;
+            margin-top: 6px;
+            background: #4a4e5e;
+            border-radius: 3px;
+        }
+
+        .project {
+            margin-bottom: 12px;
+            padding: 13px;
+            background: #13151d;
+            border: 1px solid #303340;
+            border-radius: 10px;
+        }
+
+        .project:last-child { margin-bottom: 0; }
+
+        .project-title {
+            margin-bottom: 13px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .preview-area {
+            min-width: 0;
+            padding: 26px;
+        }
+
+        .preview-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 17px;
+        }
+
+        .preview-heading h2 {
+            margin: 0 0 5px;
+            font-size: 16px;
+        }
+
+        .preview-heading p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .preview-controls {
+            display: flex;
+            gap: 4px;
+            padding: 4px;
+            background: #242631;
+            border-radius: 9px;
+        }
+
+        .device {
+            padding: 7px 9px;
+            color: #b3b7c8;
+            background: transparent;
+            border: 0;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .device.active {
+            color: white;
+            background: #3a3d4a;
+        }
+
+        .canvas-wrap {
+            min-height: 600px;
+            padding: 17px;
+            overflow: auto;
+            background: #20222b;
+            border: 1px solid #30333e;
+            border-radius: 13px;
+        }
+
+        .browser-bar {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            height: 28px;
+            padding: 0 10px;
+            background: #292b35;
+            border: 1px solid #383b47;
+            border-bottom: 0;
+            border-radius: 9px 9px 0 0;
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            background: #777d8c;
+            border-radius: 50%;
+        }
+
+        .address {
+            width: 45%;
+            margin: 0 auto;
+            padding: 3px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 9px;
+            background: #1c1e27;
+            border: 1px solid #383b47;
+            border-radius: 4px;
+        }
+
+        /* Portfolio preview */
+
+        .site {
+            --site-bg: #171923;
+            --site-text: #f4f5fb;
+            --site-muted: #b3b7c8;
+            --site-card: #202330;
+            --site-border: #343849;
+
+            max-width: 100%;
+            min-height: 535px;
+            margin: auto;
+            overflow: hidden;
+            color: var(--site-text);
+            background: var(--site-bg);
+            border-radius: 0 0 9px 9px;
+            transition: background .2s, color .2s, max-width .2s;
+        }
+
+        .site-inner {
+            max-width: 850px;
+            margin: auto;
+            padding: 30px 38px 42px;
+        }
+
+        .site-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 60px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 16px;
+            color: var(--site-muted);
+            font-weight: 500;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 120px;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 52px;
+        }
+
+        .hero .role {
+            margin-bottom: 12px;
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 800;
+            overflow-wrap: anywhere;
+        }
+
+        .hero h3 {
+            margin: 0 0 14px;
+            font-size: clamp(28px, 4vw, 45px);
+            line-height: 1.08;
+            letter-spacing: -1.5px;
+            overflow-wrap: anywhere;
+        }
+
+        .hero p {
+            max-width: 440px;
+            margin: 0;
+            color: var(--site-muted);
+            font-size: 12px;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .avatar {
+            display: grid;
+            place-items: center;
+            width: 115px;
+            height: 115px;
+            overflow: hidden;
+            color: var(--accent);
+            background: var(--soft);
+            background-position: center;
+            background-size: cover;
+            border-radius: 25px;
+            font-size: 36px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .site-section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 17px;
+        }
+
+        .site-section-title h4 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .site-section-title span {
+            color: var(--site-muted);
+            font-size: 10px;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .project-card {
+            min-width: 0;
+            min-height: 120px;
+            padding: 17px;
+            background: var(--site-card);
+            border: 1px solid var(--site-border);
+            border-radius: 10px;
+        }
+
+        .project-card .number {
+            margin-bottom: 17px;
+            color: var(--accent);
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .project-card h5 {
+            margin: 0 0 8px;
+            font-size: 13px;
+            overflow-wrap: anywhere;
+        }
+
+        .project-card p {
+            margin: 0;
+            color: var(--site-muted);
+            font-size: 10px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .project-card a {
+            display: inline-block;
+            margin-top: 12px;
+            color: var(--accent);
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .site-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 52px;
+            padding-top: 16px;
+            color: var(--site-muted);
+            border-top: 1px solid var(--site-border);
+            font-size: 10px;
+            overflow-wrap: anywhere;
+        }
+
+        /* Themes */
+
+        .site.minimal {
+            --site-bg: #171923;
+            --site-text: #f4f5fb;
+            --site-muted: #b3b7c8;
+            --site-card: #202330;
+            --site-border: #343849;
+        }
+
+        .site.creative {
+            --site-bg: #251b32;
+            --site-text: #fff4ff;
+            --site-muted: #d1b9dc;
+            --site-card: #352344;
+            --site-border: #543765;
+        }
+
+        .site.editorial {
+            --site-bg: #30251d;
+            --site-text: #fff3df;
+            --site-muted: #d0b99b;
+            --site-card: #403126;
+            --site-border: #5d4734;
+        }
+
+        .site.neon {
+            --site-bg: #10111c;
+            --site-text: #f8f8ff;
+            --site-muted: #b3b5c9;
+            --site-card: #191a27;
+            --site-border: #34354b;
+        }
+
+        .site.creative .avatar {
+            border-radius: 50% 50% 12px 50%;
+        }
+
+        .site.editorial .site-inner { max-width: 760px; }
+
+        .site.editorial .hero { display: block; }
+
+        .site.editorial .avatar { display: none; }
+
+        .site.editorial .hero h3 {
+            font-family: Georgia, serif;
+            font-weight: 500;
+        }
+
+        .site.neon .avatar { background-color: #28213e; }
+
+        .site.neon .project-card {
+            box-shadow: 0 0 0 1px #8b7bff08;
+        }
+
+        .bottom-note {
+            margin-top: 14px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 11px;
+        }
+
+        @media (max-width: 1000px) {
+            .layout {
+                grid-template-columns: 350px minmax(0, 1fr);
+            }
+
+            .preview-area { padding: 18px; }
+
+            .site-inner { padding: 25px 22px 35px; }
+
+            .hero {
+                grid-template-columns: minmax(0, 1fr) 85px;
+                gap: 15px;
+            }
+
+            .avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 26px;
+            }
+        }
+
+        @media (max-width: 740px) {
+            .topbar {
+                padding: 12px 15px;
+                flex-wrap: wrap;
+            }
+
+            .status { display: none; }
+
+            .top-actions { gap: 6px; }
+
+            .btn {
+                padding: 9px 10px;
+                font-size: 11px;
+            }
+
+            .layout {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .editor {
+                padding: 22px 15px;
+                border-right: 0;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .preview-area { padding: 20px 12px; }
+
+            .canvas-wrap {
+                min-height: 0;
+                padding: 9px;
+            }
+
+            .site-inner { padding: 24px 17px 30px; }
+
+            .site-nav { margin-bottom: 43px; }
+
+            .nav-links {
+                gap: 9px;
+                font-size: 9px;
+            }
+
+            .hero {
+                grid-template-columns: minmax(0, 1fr) 65px;
+                gap: 12px;
+                margin-bottom: 38px;
+            }
+
+            .avatar {
+                width: 62px;
+                height: 62px;
+                font-size: 20px;
+            }
+
+            .project-grid { grid-template-columns: 1fr; }
+
+            .preview-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <span class="brand-mark">P</span>
+            Portfonify
+        </div>
+
+        <div class="top-actions">
+            <span class="status">Draft · Changes update live</span>
+            <button class="btn" id="resetBtn" type="button">Reset</button>
+            <button class="btn primary generate-btn" type="button">
+                Generate website ↗
+            </button>
+        </div>
+    </header>
+
+    <main class="layout">
+        <aside class="editor">
+            <div class="eyebrow">Website builder</div>
+            <h1>Make it yours.</h1>
+            <p class="intro">
+                Customize your portfolio and see your changes instantly.
+            </p>
+
+            <section class="section">
+                <div class="section-head">
+                    <h2>01 / Choose a template</h2>
+                </div>
+
+                <div class="section-body">
+                    <div class="template-grid">
+                        <button class="template-option active"
+                                data-template="minimal" type="button">
+                            <div class="mini-preview">
+                                <div class="mini-line"></div>
+                                <div class="mini-line short"></div>
+                                <div class="mini-block"></div>
+                            </div>
+                            <span>Minimal</span>
+                        </button>
+
+                        <button class="template-option"
+                                data-template="creative" type="button">
+                            <div class="mini-preview" style="background:#352344">
+                                <div class="mini-line" style="background:#d78cff"></div>
+                                <div class="mini-block"></div>
+                                <div class="mini-line short"></div>
+                            </div>
+                            <span>Creative Studio</span>
+                        </button>
+
+                        <button class="template-option"
+                                data-template="editorial" type="button">
+                            <div class="mini-preview" style="background:#30251d">
+                                <div class="mini-line" style="background:#e3a66d"></div>
+                                <div class="mini-line short" style="background:#e3a66d"></div>
+                                <div class="mini-block" style="background:#5d4734"></div>
+                            </div>
+                            <span>Editorial</span>
+                        </button>
+
+                        <button class="template-option"
+                                data-template="neon" type="button">
+                            <div class="mini-preview" style="background:#10111c">
+                                <div class="mini-line" style="background:#8b7bff"></div>
+                                <div class="mini-line short" style="background:#8b7bff"></div>
+                                <div class="mini-block" style="background:#34354b"></div>
+                            </div>
+                            <span>Neon Tech</span>
+                        </button>
+                    </div>
+
+                    <p class="hint">
+                        Choose a design to change the portfolio's colors and layout.
+                    </p>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-head">
+                    <h2>02 / About you</h2>
+                </div>
+
+                <div class="section-body">
+                    <div class="field">
+                        <label for="nameInput">Display name</label>
+                        <input id="nameInput" maxlength="70"
+                               value="Alex Morgan" placeholder="Your name">
+                    </div>
+
+                    <div class="field">
+                        <label for="roleInput">Headline / profession</label>
+                        <input id="roleInput" maxlength="100"
+                               value="Developer & Creative Builder"
+                               placeholder="What do you do?">
+                    </div>
+
+                    <div class="field">
+                        <label for="bioInput">Short introduction</label>
+                        <textarea id="bioInput" maxlength="500">I build thoughtful digital experiences, experiment with new ideas, and turn problems into useful things.</textarea>
+                    </div>
+
+                    <div class="field">
+                        <label for="emailInput">Contact email (optional)</label>
+                        <input id="emailInput" type="email"
+                               maxlength="254" placeholder="hello@example.com">
+                    </div>
+
+                    <div class="field">
+                        <label for="accentInput">Accent color and font</label>
+                        <div class="two-col">
+                            <input id="accentInput" type="color" value="#8b83ff"
+                                   aria-label="Accent color">
+
+                            <select id="fontInput" aria-label="Font">
+                                <option value="Inter, system-ui, sans-serif">
+                                    Modern sans
+                                </option>
+                                <option value="Georgia, serif">
+                                    Editorial serif
+                                </option>
+                                <option value="'Trebuchet MS', sans-serif">
+                                    Friendly
+                                </option>
+                            </select>
+                        </div>
+                        <p class="hint">Personalize your portfolio's appearance.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-head">
+                    <h2>03 / Your projects · 2 slots</h2>
+                </div>
+
+                <div class="section-body">
+                    <div class="project">
+                        <div class="project-title">PROJECT 01</div>
+
+                        <div class="field">
+                            <label for="project1Name">Project name</label>
+                            <input id="project1Name" class="project-name"
+                                   maxlength="80" value="NotieFy">
+                        </div>
+
+                        <div class="field">
+                            <label for="project1Description">Description</label>
+                            <textarea id="project1Description"
+                                      class="project-description"
+                                      maxlength="300">A simple notification tool designed to help developers send useful updates.</textarea>
+                        </div>
+
+                        <div class="field">
+                            <label for="project1Link">Project link (optional)</label>
+                            <input id="project1Link" class="project-link"
+                                   type="url" maxlength="2048"
+                                   placeholder="https://example.com">
+                        </div>
+                    </div>
+
+                    <div class="project">
+                        <div class="project-title">PROJECT 02</div>
+
+                        <div class="field">
+                            <label for="project2Name">Project name</label>
+                            <input id="project2Name" class="project-name"
+                                   maxlength="80" value="Portfonify">
+                        </div>
+
+                        <div class="field">
+                            <label for="project2Description">Description</label>
+                            <textarea id="project2Description"
+                                      class="project-description"
+                                      maxlength="300">A portfolio website builder that helps people create and export their own website.</textarea>
+                        </div>
+
+                        <div class="field">
+                            <label for="project2Link">Project link (optional)</label>
+                            <input id="project2Link" class="project-link"
+                                   type="url" maxlength="2048"
+                                   placeholder="https://example.com">
+                        </div>
+                    </div>
+
+                    <p class="hint">Your portfolio includes exactly two project slots.</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-head">
+                    <h2>04 / Profile image</h2>
+                </div>
+
+                <div class="section-body">
+                    <div class="field">
+                        <label for="imageInput">Choose an image (optional)</label>
+                        <input id="imageInput" type="file" accept="image/*">
+                        <p class="hint">
+                            Images must be smaller than 5 MB. The selected image
+                            will be sent to your Go backend with the portfolio.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <button class="btn primary generate-btn" type="button"
+                    style="width:100%;padding:13px">
+                Generate website ↗
+            </button>
+
+            <p class="hint">
+                Generate a ZIP containing your portfolio website. Online hosting
+                is a separate feature and is not performed by this button.
+            </p>
+        </aside>
+
+        <section class="preview-area">
+            <div class="preview-heading">
+                <div>
+                    <h2>Live preview</h2>
+                    <p>Your edits appear here instantly.</p>
+                </div>
+
+                <div class="preview-controls">
+                    <button class="device active" data-device="desktop"
+                            type="button">▰ Desktop</button>
+                    <button class="device" data-device="mobile"
+                            type="button">▯ Mobile</button>
+                </div>
+            </div>
+
+            <div class="canvas-wrap">
+                <div class="browser-bar">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <div class="address">your-portfolio.portfonify</div>
+                </div>
+
+                <div class="site minimal" id="sitePreview">
+                    <div class="site-inner">
+                        <nav class="site-nav">
+                            <span id="navName">ALEX MORGAN</span>
+                            <div class="nav-links">
+                                <span>About</span>
+                                <span>Projects</span>
+                                <span>Contact</span>
+                            </div>
+                        </nav>
+
+                        <section class="hero">
+                            <div>
+                                <div class="role" id="previewRole">
+                                    DEVELOPER & CREATIVE BUILDER
+                                </div>
+                                <h3 id="previewName">Alex Morgan</h3>
+                                <p id="previewBio">
+                                    I build thoughtful digital experiences,
+                                    experiment with new ideas, and turn
+                                    problems into useful things.
+                                </p>
+                            </div>
+
+                            <div class="avatar" id="avatar">AM</div>
+                        </section>
+
+                        <section>
+                            <div class="site-section-title">
+                                <h4>Selected work</h4>
+                                <span>02 PROJECTS</span>
+                            </div>
+                            <div class="project-grid" id="previewProjects"></div>
+                        </section>
+
+                        <footer class="site-footer">
+                            <span id="previewEmail">Let's make something useful.</span>
+                            <span>Made with Portfonify</span>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+
+            <p class="bottom-note">
+                Preview only — generate your ZIP to export the website.
+            </p>
+        </section>
+    </main>
+
+    <script>
+        "use strict";
+
+        const $ = (selector, root = document) =>
+            root.querySelector(selector);
+
+        const $$ = (selector, root = document) =>
+            [...root.querySelectorAll(selector)];
+
+        let imageData = "";
+
+        const palettes = {
+            minimal: {
+                accent: "#8b83ff",
+                soft: "#292544"
+            },
+            creative: {
+                accent: "#d78cff",
+                soft: "#452b57"
+            },
+            editorial: {
+                accent: "#e3a66d",
+                soft: "#513927"
+            },
+            neon: {
+                accent: "#8b7bff",
+                soft: "#28213e"
+            }
+        };
+
+        function readProjects() {
+            return $$(".project").map(card => ({
+                name: $(".project-name", card).value.trim()
+                    || "Untitled project",
+
+                description: $(".project-description", card).value.trim()
+                    || "Add a description for this project.",
+
+                link: $(".project-link", card).value.trim()
+            }));
+        }
+
+        function safeHttpUrl(value) {
+            if (!value) return "";
+
+            try {
+                const url = new URL(value);
+
+                if (url.protocol === "https:" || url.protocol === "http:") {
+                    return url.href;
+                }
+            } catch {
+                // Invalid URL.
+            }
+
+            return "";
+        }
+
+        function renderProjects() {
+            const projects = readProjects();
+            const container = $("#previewProjects");
+
+            container.replaceChildren();
+
+            projects.forEach((project, index) => {
+                const card = document.createElement("article");
+                card.className = "project-card";
+
+                const number = document.createElement("div");
+                number.className = "number";
+                number.textContent = String(index + 1).padStart(2, "0");
+
+                const title = document.createElement("h5");
+                title.textContent = project.name;
+
+                const description = document.createElement("p");
+                description.textContent = project.description;
+
+                card.append(number, title, description);
+
+                const safeUrl = safeHttpUrl(project.link);
+
+                if (safeUrl) {
+                    const link = document.createElement("a");
+                    link.href = safeUrl;
+                    link.target = "_blank";
+                    link.rel = "noopener noreferrer";
+                    link.textContent = "View project ↗";
+                    card.append(link);
+                }
+
+                container.append(card);
+            });
+        }
+
+        function updatePreview() {
+            const name = $("#nameInput").value.trim() || "Your Name";
+            const role = $("#roleInput").value.trim() || "Your profession";
+            const bio = $("#bioInput").value.trim()
+                || "Your introduction will appear here.";
+            const email = $("#emailInput").value.trim();
+
+            $("#previewName").textContent = name;
+            $("#navName").textContent = name.toUpperCase();
+            $("#previewRole").textContent = role.toUpperCase();
+            $("#previewBio").textContent = bio;
+
+            $("#previewEmail").textContent =
+                email || "Let's make something useful.";
+
+            const accent = $("#accentInput").value;
+            document.documentElement.style.setProperty("--accent", accent);
+            document.documentElement.style.setProperty("--soft",
+                (palettes[getCurrentTemplate()] || palettes.minimal).soft);
+
+            $("#sitePreview").style.fontFamily = $("#fontInput").value;
+
+            const avatar = $("#avatar");
+
+            if (imageData) {
+                avatar.textContent = "";
+                avatar.style.backgroundImage = `url("${imageData}")`;
+            } else {
+                avatar.style.backgroundImage = "";
+
+                const initials = name
+                    .split(/\s+/)
+                    .filter(Boolean)
+                    .slice(0, 2)
+                    .map(part => part[0])
+                    .join("");
+
+                avatar.textContent = initials.toUpperCase() || "Y";
+            }
+
+            renderProjects();
+        }
+
+        function getCurrentTemplate() {
+            return Object.keys(palettes).find(template =>
+                $("#sitePreview").classList.contains(template)
+            ) || "minimal";
+        }
+
+        function setTemplate(template) {
+            if (!palettes[template]) {
+                template = "minimal";
+            }
+
+            const site = $("#sitePreview");
+            const palette = palettes[template];
+
+            site.className = "site " + template;
+            $("#accentInput").value = palette.accent;
+
+            document.documentElement.style.setProperty("--soft", palette.soft);
+
+            $$(".template-option").forEach(button => {
+                const active = button.dataset.template === template;
+                button.classList.toggle("active", active);
+                button.setAttribute("aria-pressed", String(active));
+            });
+
+            updatePreview();
+        }
+
+        // Live updates for text fields.
+        $$(
+            "#nameInput, #roleInput, #bioInput, #emailInput, " +
+            "#accentInput, #fontInput, .project-name, " +
+            ".project-description, .project-link"
+        ).forEach(element => {
+            element.addEventListener("input", updatePreview);
+        });
+
+        // Template selection.
+        $$(".template-option").forEach(button => {
+            button.addEventListener("click", () => {
+                setTemplate(button.dataset.template);
+            });
+        });
+
+        // Desktop/mobile preview.
+        $$(".device").forEach(button => {
+            button.addEventListener("click", () => {
+                $$(".device").forEach(item => {
+                    const active = item === button;
+                    item.classList.toggle("active", active);
+                    item.setAttribute("aria-pressed", String(active));
+                });
+
+                $("#sitePreview").style.maxWidth =
+                    button.dataset.device === "mobile" ? "390px" : "100%";
+            });
+        });
+
+        // Profile image preview and validation.
+        $("#imageInput").addEventListener("change", event => {
+            const file = event.target.files[0];
+
+            if (!file) {
+                imageData = "";
+                updatePreview();
+                return;
+            }
+
+            if (!file.type.startsWith("image/")) {
+                alert("Please choose an image file.");
+                event.target.value = "";
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert("Please choose an image smaller than 5 MB.");
+                event.target.value = "";
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                if (typeof reader.result !== "string") {
+                    alert("Couldn't read that image.");
+                    return;
+                }
+
+                imageData = reader.result;
+                updatePreview();
+            };
+
+            reader.onerror = () => {
+                alert("Couldn't read that image.");
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+        function resetBuilder() {
+            if (!confirm("Reset the builder to its starter content?")) {
+                return;
+            }
+
+            $("#nameInput").value = "Alex Morgan";
+            $("#roleInput").value = "Developer & Creative Builder";
+
+            $("#bioInput").value =
+                "I build thoughtful digital experiences, experiment with new ideas, and turn problems into useful things.";
+
+            $("#emailInput").value = "";
+            $("#fontInput").selectedIndex = 0;
+
+            $("#project1Name").value = "NotieFy";
+
+            $("#project1Description").value =
+                "A simple notification tool designed to help developers send useful updates.";
+
+            $("#project1Link").value = "";
+
+            $("#project2Name").value = "Portfonify";
+
+            $("#project2Description").value =
+                "A portfolio website builder that helps people create and export their own website.";
+
+            $("#project2Link").value = "";
+
+            imageData = "";
+            $("#imageInput").value = "";
+
+            setTemplate("minimal");
+            updatePreview();
+        }
+
+        function storeGeneratedZip(blob) {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open("PortfonifyReviewer", 1);
+
+                request.onupgradeneeded = () => {
+                    if (!request.result.objectStoreNames.contains("zips")) {
+                        request.result.createObjectStore("zips");
+                    }
+                };
+
+                request.onerror = () => reject(request.error);
+
+                request.onsuccess = () => {
+                    const db = request.result;
+                    const transaction = db.transaction("zips", "readwrite");
+                    transaction.objectStore("zips").put(blob, "latest");
+
+                    transaction.oncomplete = () => {
+                        db.close();
+                        resolve();
+                    };
+
+                    transaction.onerror = () => {
+                        db.close();
+                        reject(transaction.error);
+                    };
+                };
+            });
+        }
+
+        // Send portfolio data to Go and download its ZIP response.
+        async function generateWebsite() {
+            const buttons = $$(".generate-btn");
+
+            const portfolio = {
+                name: $("#nameInput").value.trim(),
+                role: $("#roleInput").value.trim(),
+                bio: $("#bioInput").value.trim(),
+                email: $("#emailInput").value.trim(),
+                theme: getCurrentTemplate(),
+                accent: $("#accentInput").value,
+                font: $("#fontInput").value,
+                projects: readProjects(),
+                image: imageData
+            };
+
+            buttons.forEach(button => {
+                button.disabled = true;
+                button.textContent = "Generating...";
+            });
+
+            try {
+                const response = await fetch("/api/create", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(portfolio)
+                });
+
+                if (!response.ok) {
+                    const message = await response.text();
+                    throw new Error(
+                        message || `Server error: ${response.status}`
+                    );
+                }
+
+                const blob = await response.blob();
+
+                if (blob.size === 0) {
+                    throw new Error("The server returned an empty ZIP file.");
+                }
+
+                await storeGeneratedZip(blob);
+
+                const downloadUrl = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+
+                link.href = downloadUrl;
+                link.download = "portfolio.zip";
+
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+
+                setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+
+                console.log("Portfolio ZIP download started.");
+
+                // Open the Reviewer after starting the ZIP download.
+                setTimeout(() => {
+                    window.location.href = "/reviewer";
+                }, 500);
+            } catch (error) {
+                console.error("Portfolio generation failed:", error);
+
+                alert(
+                    "Couldn't generate your website.\n\n" +
+                    (error.message || "An unexpected error occurred.")
+                );
+            } finally {
+                buttons.forEach(button => {
+                    button.disabled = false;
+                    button.textContent = "Generate website ↗";
+                });
+            }
+        }
+
+        $("#resetBtn").addEventListener("click", resetBuilder);
+
+        $$(".generate-btn").forEach(button => {
+            button.addEventListener("click", generateWebsite);
+        });
+
+        // Show the starter portfolio when the page first loads.
+        setTemplate("minimal");
+        updatePreview();
+    </script>
+</body>
+</html>

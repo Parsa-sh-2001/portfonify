@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Jordan Ellis — Portfolio</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --paper: #f8f6f0;
+      --ink: #282921;
+      --muted: #777768;
+      --olive: #737b51;
+      --line: #dcd9ce;
+      --surface: #efede4;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.85;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+
+    /* Navigation */
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: var(--olive);
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      margin-left: 20px;
+    }
+
+    nav a:hover {
+      color: var(--olive);
+    }
+
+    /* Hero */
+
+    .hero {
+      padding: 100px 0 85px;
+    }
+
+    .eyebrow {
+      color: var(--olive);
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 800px;
+      font-size: clamp(48px, 8vw, 86px);
+      font-weight: normal;
+      line-height: 1.08;
+      letter-spacing: -3px;
+      margin: 25px 0;
+    }
+
+    h1 em {
+      color: var(--olive);
+      font-weight: normal;
+    }
+
+    .bio {
+      max-width: 620px;
+      color: var(--muted);
+      font-size: 19px;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 50px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Sections */
+
+    section {
+      padding: 45px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 30px;
+      margin-bottom: 25px;
+    }
+
+    .section-number {
+      color: var(--olive);
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-size: 32px;
+      font-weight: normal;
+      line-height: 1.3;
+    }
+
+    .about-text {
+      max-width: 680px;
+      margin-left: 180px;
+      font-size: 17px;
+    }
+
+    /* Projects */
+
+    .project {
+      display: grid;
+      grid-template-columns: 150px 1fr auto;
+      align-items: start;
+      gap: 30px;
+      padding: 25px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .project:first-child {
+      border-top: 0;
+    }
+
+    .project-number {
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    .project h3 {
+      font-size: 24px;
+      font-weight: normal;
+      margin-bottom: 5px;
+    }
+
+    .project p {
+      max-width: 480px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .project a {
+      color: var(--olive);
+      text-decoration: none;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .project a:hover {
+      text-decoration: underline;
+    }
+
+    /* Skills */
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-left: 180px;
+    }
+
+    .skill {
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 7px 16px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Contact */
+
+    .contact {
+      background: var(--surface);
+      padding: 35px;
+      margin-top: 20px;
+    }
+
+    .contact h2 {
+      max-width: 600px;
+      font-size: clamp(30px, 5vw, 46px);
+    }
+
+    .contact p {
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    .contact a {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--olive);
+      text-decoration: none;
+      border-bottom: 1px solid var(--olive);
+    }
+
+    /* Footer */
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 35px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 650px) {
+      main {
+        padding: 20px;
+      }
+
+      nav a {
+        margin-left: 12px;
+      }
+
+      .hero {
+        padding: 70px 0 55px;
+      }
+
+      h1 {
+        letter-spacing: -1.5px;
+      }
+
+      .section-heading {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .about-text,
+      .skills {
+        margin-left: 0;
+      }
+
+      .project {
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+      }
+
+      .project-number {
+        grid-column: 1 / -1;
+      }
+
+      .project h3 {
+        font-size: 21px;
+      }
+
+      .contact {
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+
+    <nav>
+      <div class="logo">JORDAN<span>.</span> ELLIS</div>
+
+      <div>
+        <a href="#about">About</a>
+        <a href="#projects">Work</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <p class="eyebrow">Developer · Writer · Independent thinker</p>
+
+      <h1>
+        A practice of<br>
+        making things<br>
+        <em>with purpose.</em>
+      </h1>
+
+      <p class="bio">
+        I'm Jordan Ellis, a software developer interested
+        in thoughtful design, useful technology, and
+        building things that last.
+      </p>
+
+      <div class="hero-meta">
+        <span>Selected portfolio</span>
+        <span>2026 — Present</span>
+      </div>
+    </header>
+
+    <section id="about">
+      <div class="section-heading">
+        <p class="section-number">01 / About</p>
+        <h2>A little context.</h2>
+      </div>
+
+      <p class="about-text">
+        I enjoy working at the intersection of engineering
+        and creativity. My work focuses on building useful
+        software, exploring ideas, and making complex
+        things easier to understand. I'm drawn to projects
+        that value clarity, careful thinking, and
+        attention to detail.
+      </p>
+    </section>
+
+    <section id="projects">
+      <div class="section-heading">
+        <p class="section-number">02 / Selected work</p>
+        <h2>A few things I've made.</h2>
+      </div>
+
+      <article class="project">
+        <span class="project-number">PROJECT 001</span>
+
+        <div>
+          <h3>The Personal Archive</h3>
+          <p>
+            A searchable space for collecting notes,
+            ideas, and references in one place.
+          </p>
+        </div>
+
+        <a href="#contact">View ↗</a>
+      </article>
+
+      <article class="project">
+        <span class="project-number">PROJECT 002</span>
+
+        <div>
+          <h3>Open Data Tool</h3>
+          <p>
+            A lightweight application that makes
+            structured information easier to explore.
+          </p>
+        </div>
+
+        <a href="#contact">View ↗</a>
+      </article>
+
+      <article class="project">
+        <span class="project-number">PROJECT 003</span>
+
+        <div>
+          <h3>Notes on Software</h3>
+          <p>
+            A collection of technical writing about
+            backend engineering and building reliable tools.
+          </p>
+        </div>
+
+        <a href="#contact">View ↗</a>
+      </article>
+    </section>
+
+    <section id="skills">
+      <div class="section-heading">
+        <p class="section-number">03 / Expertise</p>
+        <h2>Things I work with.</h2>
+      </div>
+
+      <div class="skills">
+        <span class="skill">Go</span>
+        <span class="skill">Backend Development</span>
+        <span class="skill">REST APIs</span>
+        <span class="skill">SQL</span>
+        <span class="skill">Technical Writing</span>
+        <span class="skill">Problem Solving</span>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <p class="section-number">04 / Contact</p>
+
+      <h2>Good work starts with a conversation.</h2>
+
+      <p>
+        Have an interesting idea or project in mind?
+        I'd be glad to hear about it.
+      </p>
+
+      <a href="mailto:hello@example.com">
+        Get in touch ↗
+      </a>
+    </section>
+
+    <footer>
+      <span>JORDAN ELLIS · PORTFOLIO</span>
+      <span>INDEPENDENTLY MADE · © 2026</span>
+    </footer>
+
+  </main>
+</body>
+</html>

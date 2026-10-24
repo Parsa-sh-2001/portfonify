@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Nova Chen — Digital Portfolio</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --background: #080a18;
+      --surface: #101329;
+      --surface-light: #171b35;
+      --violet: #a78bfa;
+      --cyan: #67e8f9;
+      --white: #f3f4ff;
+      --muted: #969bbd;
+      --border: #252947;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--background);
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    main {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    /* Navigation */
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 18px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      color: var(--violet);
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      margin-left: 22px;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--cyan);
+    }
+
+    /* Hero */
+
+    .hero {
+      position: relative;
+      padding: 105px 0 90px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 13px;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      color: var(--muted);
+      font-size: 12px;
+      background: var(--surface);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan);
+    }
+
+    h1 {
+      margin: 28px 0 20px;
+      font-size: clamp(46px, 8vw, 88px);
+      line-height: 1.05;
+      letter-spacing: -4px;
+    }
+
+    h1 span {
+      color: var(--violet);
+      text-shadow: 0 0 30px #a78bfa30;
+    }
+
+    .bio {
+      max-width: 650px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 19px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      background: var(--violet);
+      color: #100b24;
+      box-shadow: 0 0 24px #a78bfa25;
+    }
+
+    .button-secondary {
+      border: 1px solid var(--border);
+      color: var(--white);
+    }
+
+    /* Sections */
+
+    section {
+      padding: 42px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 12px 0 20px;
+      font-size: clamp(27px, 4vw, 38px);
+      letter-spacing: -1px;
+    }
+
+    .about-text {
+      max-width: 750px;
+      color: var(--muted);
+    }
+
+    /* Skills */
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .skill {
+      padding: 9px 15px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #d8d7f5;
+      font-size: 13px;
+    }
+
+    .skill:hover {
+      border-color: var(--violet);
+    }
+
+    /* Projects */
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .project {
+      padding: 25px;
+      background: linear-gradient(
+        145deg,
+        var(--surface-light),
+        var(--surface)
+      );
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .project:hover {
+      border-color: var(--violet);
+      transform: translateY(-4px);
+    }
+
+    .project-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--cyan);
+      font-size: 12px;
+    }
+
+    .project h3 {
+      margin: 22px 0 10px;
+      font-size: 22px;
+    }
+
+    .project p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .project a {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--violet);
+      font-size: 13px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .project a:hover {
+      color: var(--cyan);
+    }
+
+    /* Contact */
+
+    .contact {
+      padding: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-top: 18px;
+    }
+
+    .contact p {
+      color: var(--muted);
+    }
+
+    .contact a {
+      display: inline-block;
+      margin-top: 22px;
+    }
+
+    /* Footer */
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 45px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    footer span {
+      color: var(--violet);
+    }
+
+    /* Mobile */
+
+    @media (max-width: 650px) {
+      main {
+        padding: 20px;
+      }
+
+      nav a {
+        margin-left: 10px;
+        font-size: 12px;
+      }
+
+      .hero {
+        padding: 75px 0 60px;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+
+      .projects {
+        grid-template-columns: 1fr;
+      }
+
+      .contact {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+
+    <nav>
+      <div class="logo">NOVA<span>.DEV</span></div>
+
+      <div>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="status">
+        <span class="status-dot"></span>
+        Available for interesting projects
+      </div>
+
+      <h1>
+        Building the<br>
+        <span>next layer</span><br>
+        of technology.
+      </h1>
+
+      <p class="bio">
+        I'm Nova Chen, a software developer interested
+        in backend systems, intelligent applications,
+        and turning ambitious ideas into real products.
+      </p>
+
+      <div class="hero-actions">
+        <a class="button button-primary" href="#projects">
+          Explore my work ↗
+        </a>
+
+        <a class="button button-secondary" href="#contact">
+          Get in touch
+        </a>
+      </div>
+    </header>
+
+    <section id="about">
+      <p class="section-label">01 / About</p>
+
+      <h2>Curiosity drives everything.</h2>
+
+      <p class="about-text">
+        I enjoy exploring how software works beneath
+        the surface. From designing APIs and working
+        with databases to experimenting with new
+        technologies, I like understanding problems
+        deeply and building solutions that are simple,
+        reliable, and useful.
+      </p>
+    </section>
+
+    <section id="skills">
+      <p class="section-label">02 / Technical stack</p>
+
+      <h2>Tools of the trade.</h2>
+
+      <div class="skills">
+        <span class="skill">Go</span>
+        <span class="skill">Python</span>
+        <span class="skill">REST APIs</span>
+        <span class="skill">SQL</span>
+        <span class="skill">HTML & CSS</span>
+        <span class="skill">Git</span>
+        <span class="skill">AI / ML</span>
+      </div>
+    </section>
+
+    <section id="projects">
+      <p class="section-label">03 / Selected projects</p>
+
+      <h2>Experiments turned into products.</h2>
+
+      <div class="projects">
+
+        <article class="project">
+          <div class="project-top">
+            <span>01 — BACKEND</span>
+            <span>API</span>
+          </div>
+
+          <h3>CoreLink</h3>
+
+          <p>
+            A lightweight API service designed
+            to connect applications through
+            reliable, structured endpoints.
+          </p>
+
+          <a href="#contact">View project ↗</a>
+        </article>
+
+        <article class="project">
+          <div class="project-top">
+            <span>02 — AUTOMATION</span>
+            <span>PY</span>
+          </div>
+
+          <h3>AutoPilot</h3>
+
+          <p>
+            A desktop automation concept that
+            makes repetitive digital tasks
+            faster and easier to manage.
+          </p>
+
+          <a href="#contact">View project ↗</a>
+        </article>
+
+        <article class="project">
+          <div class="project-top">
+            <span>03 — DATA</span>
+            <span>DB</span>
+          </div>
+
+          <h3>DataSphere</h3>
+
+          <p>
+            An experiment in organizing,
+            querying, and presenting structured
+            information through a clean interface.
+          </p>
+
+          <a href="#contact">View project ↗</a>
+        </article>
+
+        <article class="project">
+          <div class="project-top">
+            <span>04 — WEB</span>
+            <span>UI</span>
+          </div>
+
+          <h3>PixelSpace</h3>
+
+          <p>
+            A digital workspace concept built
+            around clarity, thoughtful layouts,
+            and a focused user experience.
+          </p>
+
+          <a href="#contact">View project ↗</a>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <p class="section-label">04 / Connection established</p>
+
+      <h2>Have something interesting in mind?</h2>
+
+      <p>
+        I'm always curious about ambitious ideas
+        and interesting technical challenges.
+      </p>
+
+      <a class="button button-primary"
+         href="mailto:hello@example.com">
+        Send a message ↗
+      </a>
+    </section>
+
+    <footer>
+      <span>NOVA.DEV</span>
+      <p>Designed for the future · © 2026</p>
+    </footer>
+
+  </main>
+</body>
+</html>
