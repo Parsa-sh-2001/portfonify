@@ -120,5 +120,10 @@ func main() {
 		path := "./Assets/reviewer.html"
 		http.ServeFile(w, r, path)
 	})
-	http.ListenAndServe(":8080", nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+	    port = "8080"
+	}
+	
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
