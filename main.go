@@ -122,6 +122,9 @@ func main() {
 		path := "./Assets/reviewer.html"
 		http.ServeFile(w, r, path)
 	})
+	http.HandleFunc("/docs/sch7/proposal", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./Assets/proposal_7.html")
+		})
 	port := os.Getenv("PORT")
 	if port == "" {
 	    port = "8080"
