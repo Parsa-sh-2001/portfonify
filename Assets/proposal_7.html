@@ -58,7 +58,7 @@
 
         header {
             border-bottom: 1px solid var(--border);
-            background: rgba(11,11,17,0.85);
+            background: rgba(11,11,17,0.92);
             position: sticky;
             top: 0;
             z-index: 10;
@@ -66,7 +66,7 @@
         }
 
         nav {
-            min-height: 76px;
+            min-height: 82px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -76,25 +76,23 @@
         .logos {
             display: flex;
             align-items: center;
-            gap: 26px;
+            gap: 16px;
             direction: ltr;
         }
 
-        .logo {
-            font-family: Arial, sans-serif;
-            font-size: 19px;
-            font-weight: 800;
-            letter-spacing: -0.8px;
+        .brand-logo {
+            display: block;
+            width: auto;
+            height: 43px;
+            object-fit: contain;
         }
 
-        .logo span {
-            color: var(--accent);
+        .portfonify-logo {
+            border-radius: 3px;
         }
 
-        .logo-divider {
-            height: 25px;
-            width: 1px;
-            background: var(--border);
+        .musicify-logo {
+            border-radius: 3px;
         }
 
         .nav-links {
@@ -102,6 +100,10 @@
             gap: 25px;
             color: var(--muted);
             font-size: 13px;
+        }
+
+        .nav-links a {
+            transition: 0.2s;
         }
 
         .nav-links a:hover {
@@ -195,7 +197,7 @@
             border-color: var(--accent);
         }
 
-        /* General sections */
+        /* Sections */
 
         section {
             padding: 75px 0;
@@ -254,6 +256,11 @@
             border: 1px solid var(--border);
             border-radius: 14px;
             padding: 28px;
+            transition: 0.25s;
+        }
+
+        .history-card:hover {
+            border-color: var(--accent);
         }
 
         .history-card .year {
@@ -312,7 +319,7 @@
             margin-top: 5px;
         }
 
-        /* How */
+        /* How it works */
 
         .mode-grid {
             display: grid;
@@ -402,6 +409,8 @@
             white-space: nowrap;
         }
 
+        /* Budget */
+
         .budget {
             margin-top: 25px;
             padding: 30px;
@@ -469,16 +478,17 @@
             font-size: 12px;
         }
 
-        .footer-logo {
+        .footer-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
             direction: ltr;
-            font-family: Arial, sans-serif;
-            font-weight: 800;
-            font-size: 16px;
-            margin-bottom: 10px;
+            margin-bottom: 18px;
         }
 
-        .footer-logo span {
-            color: var(--accent);
+        .footer-logos .brand-logo {
+            height: 35px;
         }
 
         /* Responsive */
@@ -510,12 +520,16 @@
         }
 
         @media(max-width: 450px) {
-            .logos {
-                gap: 12px;
+            nav {
+                min-height: 70px;
             }
 
-            .logo {
-                font-size: 16px;
+            .logos {
+                gap: 9px;
+            }
+
+            .brand-logo {
+                height: 35px;
             }
 
             .game-grid {
@@ -543,10 +557,19 @@
 <header>
     <div class="container">
         <nav>
+
             <div class="logos">
-                <div class="logo">Portfonify<span>.</span></div>
-                <div class="logo-divider"></div>
-                <div class="logo">Musicify<span>.</span></div>
+                <img
+                    src="Assets/portfonify.png"
+                    alt="Portfonify."
+                    class="brand-logo portfonify-logo"
+                >
+
+                <img
+                    src="Assets/musicify.png"
+                    alt="Musicify."
+                    class="brand-logo musicify-logo"
+                >
             </div>
 
             <div class="nav-links">
@@ -556,14 +579,18 @@
                 <a href="#how">نحوه عملکرد</a>
                 <a href="#budget">هزینه‌ها</a>
             </div>
+
         </nav>
     </div>
 </header>
 
 <main>
 
+    <!-- Hero -->
+
     <div class="hero">
         <div class="container">
+
             <div class="tag">PROJECT PROPOSAL · 2026</div>
 
             <h1>
@@ -579,11 +606,15 @@
                 <a href="#why" class="btn btn-primary">مشاهده پیشنهاد</a>
                 <a href="#games" class="btn btn-secondary">معرفی بازی‌ها</a>
             </div>
+
         </div>
     </div>
 
+    <!-- Why -->
+
     <section id="why">
         <div class="container">
+
             <div class="section-heading">
                 <small>01 / THE PROBLEM</small>
                 <h2>چرا این پروژه؟</h2>
@@ -603,11 +634,15 @@
                     حرکتی کمک کند.
                 </p>
             </div>
+
         </div>
     </section>
 
+    <!-- History -->
+
     <section id="history">
         <div class="container">
+
             <div class="section-heading">
                 <small>02 / BACKGROUND</small>
                 <h2>پیشینه ایده</h2>
@@ -615,6 +650,7 @@
             </div>
 
             <div class="history">
+
                 <div class="history-card">
                     <span class="year">2011</span>
                     <p>
@@ -632,12 +668,16 @@
                         متنوع پیاده‌سازی کنیم.
                     </p>
                 </div>
+
             </div>
         </div>
     </section>
 
+    <!-- Game Types -->
+
     <section id="games">
         <div class="container">
+
             <div class="section-heading">
                 <small>03 / GAME TYPES</small>
                 <h2>شش نوع بازی</h2>
@@ -689,8 +729,11 @@
         </div>
     </section>
 
+    <!-- How it works -->
+
     <section id="how">
         <div class="container">
+
             <div class="section-heading">
                 <small>04 / HOW IT WORKS</small>
                 <h2>نحوه عملکرد سیستم</h2>
@@ -725,18 +768,24 @@
                     سیستم دارای ۷ کلید است. نور، صدا یا هر دو به صورت
                     تصادفی فعال می‌شوند و بازیکن باید به محرک مشخص‌شده
                     واکنش نشان دهد.
+
                     <br><br>
+
                     <strong>فاصله قابل پشتیبانی:</strong>
                     با استفاده از کابل تلفنی ۶ رشته‌ای، امکان قرار دادن
                     اجزای سیستم در فاصله‌ای حدود ۵ متر از یکدیگر در نظر
                     گرفته شده است.
                 </p>
             </div>
+
         </div>
     </section>
 
+    <!-- Budget and components -->
+
     <section id="budget">
         <div class="container">
+
             <div class="section-heading">
                 <small>05 / REQUIRED COMPONENTS</small>
                 <h2>تجهیزات مورد نیاز</h2>
@@ -818,18 +867,24 @@
             </div>
 
             <div class="budget">
+
                 <div>
                     <small>ESTIMATED PROJECT COST</small>
                     <h3>برآورد هزینه اولیه</h3>
                 </div>
 
                 <h2>2,000,000 تومان</h2>
+
             </div>
+
         </div>
     </section>
 
+    <!-- Team -->
+
     <section id="team">
         <div class="container">
+
             <div class="section-heading">
                 <small>06 / THE TEAM</small>
                 <h2>مشارکت‌کنندگان</h2>
@@ -837,23 +892,43 @@
             </div>
 
             <div class="contributors">
+
                 <div class="person">پارسا شیرین</div>
                 <div class="person">ایلیا خدابخشی</div>
                 <div class="person">علیسان کوچه‌باغی</div>
                 <div class="person">اسحاق گزنقی</div>
+
             </div>
+
         </div>
     </section>
 
 </main>
 
+<!-- Footer -->
+
 <footer>
     <div class="container">
-        <div class="footer-logo">
-            Portfonify<span>.</span> &nbsp; × &nbsp; Musicify<span>.</span>
+
+        <div class="footer-logos">
+
+            <img
+                src="Assets/portfonify.png"
+                alt="Portfonify."
+                class="brand-logo"
+            >
+
+            <img
+                src="Assets/musicify.png"
+                alt="Musicify."
+                class="brand-logo"
+            >
+
         </div>
+
         <p>ارائه طرح اولیه پروژه بازی تقویت سرعت عمل</p>
-        <p style="margin-top: 8px;">2026 · Project Parsa Sh 2001 github</p>
+        <p style="margin-top: 8px;">2026 · Project Proposal</p>
+
     </div>
 </footer>
 
